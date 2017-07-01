@@ -45,6 +45,26 @@
     <Reference Include="AeccDbMgd">
       <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\AeccDbMgd.dll</HintPath>
     </Reference>
+    <Reference Include="Autodesk.AEC.Interop.Base">
+      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\ACA\Autodesk.AEC.Interop.Base.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Autodesk.AEC.Interop.UIBase">
+      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\ACA\Autodesk.AEC.Interop.UIBase.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Autodesk.AECC.Interop.Land">
+      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\C3D\Autodesk.AECC.Interop.Land.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Autodesk.AECC.Interop.UiLand">
+      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\C3D\Autodesk.AECC.Interop.UiLand.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Autodesk.AutoCAD.Interop">
+      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\Autodesk.AutoCAD.Interop.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -62,6 +82,8 @@
     <Compile Include="cCommands.cs" />
     <Compile Include="cExtension.cs" />
     <Compile Include="Featureline\cFeatureline.cs" />
+    <Compile Include="Layer\cLayer.cs" />
+    <Compile Include="Polyline\cPolyline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

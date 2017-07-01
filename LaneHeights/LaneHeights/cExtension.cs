@@ -20,6 +20,7 @@ namespace LaneHeights_Extensions
         {
             Active.Editor.WriteMessage("\n-> Create Block Start with cb");
             Active.Editor.WriteMessage("\n-> Get Featureline Start with gf");
+            Active.Editor.WriteMessage("\n-> Get Polyline Start with gp");
         }
 
         public void Terminate()

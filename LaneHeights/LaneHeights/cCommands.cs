@@ -42,5 +42,13 @@ namespace LaneHeights
             LaneHeights_Polyline.LwPolyline o = new LwPolyline();
             o.SelectPolyline("\nSelect a Polyline");
         }
+
+        [CommandMethod("CF")]
+        public void CreateFeatureline()
+        {
+            LaneHeights_Featureline.Featureline o = new Featureline();
+            o.CreateFromPolyline();
+        }
+
     }
 }

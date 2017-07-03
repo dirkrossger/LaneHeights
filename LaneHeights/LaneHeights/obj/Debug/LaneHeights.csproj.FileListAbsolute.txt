@@ -9,3 +9,9 @@ C:\Git-repository\LaneHeights\LaneHeights\LaneHeights\bin\Debug\AdWindows.dll
 C:\Git-repository\LaneHeights\LaneHeights\LaneHeights\bin\Debug\AcWindows.dll
 C:\Git-repository\LaneHeights\LaneHeights\LaneHeights\obj\Debug\LaneHeights.dll
 C:\Git-repository\LaneHeights\LaneHeights\LaneHeights\obj\Debug\LaneHeights.pdb
+H:\GIT-repository\LaneHeights\LaneHeights\LaneHeights\obj\Debug\LaneHeights.dll
+H:\GIT-repository\LaneHeights\LaneHeights\LaneHeights\obj\Debug\LaneHeights.pdb
+H:\GIT-repository\LaneHeights\LaneHeights\LaneHeights\bin\Debug\LaneHeights.dll
+H:\GIT-repository\LaneHeights\LaneHeights\LaneHeights\bin\Debug\LaneHeights.pdb
+H:\GIT-repository\LaneHeights\LaneHeights\LaneHeights\bin\Debug\AecBaseMgd.dll
+H:\GIT-repository\LaneHeights\LaneHeights\LaneHeights\bin\Debug\AeccDbMgd.dll

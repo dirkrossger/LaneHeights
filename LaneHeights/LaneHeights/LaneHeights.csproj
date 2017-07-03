@@ -30,40 +30,53 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="accoremgd">
-      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\accoremgd.dll</HintPath>
+    <Reference Include="AcCoreMgd, Version=20.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.Core.20.1.0\lib\45\AcCoreMgd.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="acdbmgd">
-      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\acdbmgd.dll</HintPath>
+    <Reference Include="AcCui, Version=20.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.1.0\lib\45\AcCui.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="acmgd">
-      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\acmgd.dll</HintPath>
+    <Reference Include="AcDbMgd, Version=20.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.Model.20.1.0\lib\45\AcDbMgd.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="AecBaseMgd">
-      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\AecBaseMgd.dll</HintPath>
+    <Reference Include="acdbmgdbrep, Version=20.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.Model.20.1.0\lib\45\acdbmgdbrep.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="AeccDbMgd">
-      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\AeccDbMgd.dll</HintPath>
+    <Reference Include="AcDx, Version=20.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.1.0\lib\45\AcDx.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Autodesk.AEC.Interop.Base">
-      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\ACA\Autodesk.AEC.Interop.Base.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="AcMgd, Version=20.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.1.0\lib\45\AcMgd.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Autodesk.AEC.Interop.UIBase">
-      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\ACA\Autodesk.AEC.Interop.UIBase.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="AcMr, Version=20.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.1.0\lib\45\AcMr.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Autodesk.AECC.Interop.Land">
-      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\C3D\Autodesk.AECC.Interop.Land.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="AcTcMgd, Version=20.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.1.0\lib\45\AcTcMgd.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Autodesk.AECC.Interop.UiLand">
-      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\C3D\Autodesk.AECC.Interop.UiLand.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="AcWindows, Version=20.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.1.0\lib\45\AcWindows.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Autodesk.AutoCAD.Interop">
-      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2017\Autodesk.AutoCAD.Interop.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="AdWindows, Version=6.3.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.20.1.0\lib\45\AdWindows.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AecBaseMgd, Version=7.9.48.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Dropbox\Symetri\Acad.net.library\2016\C3D\AecBaseMgd.dll</HintPath>
+    </Reference>
+    <Reference Include="AeccDbMgd, Version=11.0.659.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Dropbox\Symetri\Acad.net.library\2016\C3D\AeccDbMgd.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -86,7 +99,9 @@
     <Compile Include="Polyline\cPolyline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 
-namespace LaneHeights_LinkingObjects
+namespace LaneHeights_LinkingCircles
 {
     /// <summary>
     /// Utility class to manage and save links
@@ -24,8 +24,7 @@ namespace LaneHeights_LinkingObjects
         // Constructor
         public LinkedObjectManager()
         {
-            m_dict =
-              new Dictionary<ObjectId, ObjectIdCollection>();
+            m_dict = new Dictionary<ObjectId, ObjectIdCollection>();
         }
 
         // Create a bi-directional link between two objects
@@ -51,8 +50,7 @@ namespace LaneHeights_LinkingObjects
             }
             else
             {
-                ObjectIdCollection newList =
-                  new ObjectIdCollection();
+                ObjectIdCollection newList = new ObjectIdCollection();
                 newList.Add(to);
                 m_dict.Add(from, newList);
             }
@@ -174,18 +172,9 @@ namespace LaneHeights_LinkingObjects
                 bool finished = false;
                 do
                 {
-                    if (dict.Contains(
-                          kXrecPrefix + xrecCount.ToString()
-                        )
-                    )
+                    if (dict.Contains(kXrecPrefix + xrecCount.ToString()))
                     {
-                        DBObject obj =
-                          tr.GetObject(
-                            dict.GetAt(
-                              kXrecPrefix + xrecCount.ToString()
-                            ),
-                            OpenMode.ForWrite
-                          );
+                        DBObject obj = tr.GetObject(dict.GetAt(kXrecPrefix + xrecCount.ToString()), OpenMode.ForWrite);
                         obj.Erase();
                     }
                     else
@@ -202,63 +191,44 @@ namespace LaneHeights_LinkingObjects
         // dictionary in the database
         public void LoadFromDatabase(Database db)
         {
-            Document doc =
-              Application.DocumentManager.MdiActiveDocument;
+            Document doc = Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
-            Transaction tr =
-              db.TransactionManager.StartTransaction();
+            Transaction tr = db.TransactionManager.StartTransaction();
             using (tr)
             {
                 // Try to find the link dictionary, but
                 // do not create it if one isn't there
-                ObjectId dictId =
-                  GetLinkDictionaryId(db, false);
+                ObjectId dictId = GetLinkDictionaryId(db, false);
                 if (dictId.IsNull)
                 {
-                    ed.WriteMessage(
-                      "\nCould not find link dictionary."
-                    );
+                    ed.WriteMessage("\nCould not find link dictionary.");
                     return;
                 }
 
                 // By this stage we can assume the dictionary exists
-                DBDictionary dict =
-                  (DBDictionary)tr.GetObject(
-                    dictId, OpenMode.ForRead
-                  );
+                DBDictionary dict = (DBDictionary)tr.GetObject(dictId, OpenMode.ForRead);
                 int xrecCount = 0;
                 bool done = false;
 
                 // Loop, reading the xrecords one-by-one
                 while (!done)
                 {
-                    if (dict.Contains(
-                          kXrecPrefix + xrecCount.ToString()
-                       )
-                    )
+                    if (dict.Contains(kXrecPrefix + xrecCount.ToString()))
                     {
-                        ObjectId recId =
-                          dict.GetAt(
-                            kXrecPrefix + xrecCount.ToString()
-                          );
-                        DBObject obj =
-                          tr.GetObject(recId, OpenMode.ForRead);
+                        ObjectId recId = dict.GetAt(kXrecPrefix + xrecCount.ToString());
+                        DBObject obj = tr.GetObject(recId, OpenMode.ForRead);
                         Xrecord xrec = obj as Xrecord;
                         if (xrec == null)
                         {
-                            ed.WriteMessage(
-                              "\nDictionary contains non-xrecords."
-                            );
+                            ed.WriteMessage("\nDictionary contains non-xrecords.");
                             return;
                         }
                         int i = 0;
                         ObjectId from = new ObjectId();
-                        ObjectIdCollection to =
-                          new ObjectIdCollection();
+                        ObjectIdCollection to = new ObjectIdCollection();
                         foreach (TypedValue val in xrec.Data)
                         {
-                            if (i == 0)
-                                from = (ObjectId)val.Value;
+                            if (i == 0) from = (ObjectId)val.Value;
                             else
                             {
                                 to.Add((ObjectId)val.Value);
@@ -281,27 +251,19 @@ namespace LaneHeights_LinkingObjects
 
         // Helper function to validate links before adding
         // them to the internal data structure
-        private void AddValidatedLinks(
-          Database db,
-          ObjectId from,
-          ObjectIdCollection to
-        )
+        private void AddValidatedLinks(Database db, ObjectId from, ObjectIdCollection to)
         {
-            Document doc =
-              Application.DocumentManager.MdiActiveDocument;
+            Document doc = Application.DocumentManager.MdiActiveDocument;
             Editor ed = doc.Editor;
-            Transaction tr =
-              db.TransactionManager.StartTransaction();
+            Transaction tr = db.TransactionManager.StartTransaction();
             using (tr)
             {
                 try
                 {
-                    ObjectIdCollection newList =
-                      new ObjectIdCollection();
+                    ObjectIdCollection newList = new ObjectIdCollection();
 
                     // Open the "from" object
-                    DBObject obj =
-                      tr.GetObject(from, OpenMode.ForRead, false);
+                    DBObject obj = tr.GetObject(from, OpenMode.ForRead, false);
                     if (obj != null)
                     {
                         // Open each of the "to" objects
@@ -310,8 +272,7 @@ namespace LaneHeights_LinkingObjects
                             DBObject obj2;
                             try
                             {
-                                obj2 =
-                                  tr.GetObject(id, OpenMode.ForRead, false);
+                                obj2 = tr.GetObject(id, OpenMode.ForRead, false);
                                 // Filter out the erased "to" objects
                                 if (obj2 != null)
                                 {
@@ -320,9 +281,7 @@ namespace LaneHeights_LinkingObjects
                             }
                             catch (System.Exception)
                             {
-                                ed.WriteMessage(
-                                  "\nFiltered out link to an erased object."
-                                );
+                                ed.WriteMessage("\nFiltered out link to an erased object.");
                             }
                         }
                         // Only if the "from" object and at least
@@ -336,9 +295,7 @@ namespace LaneHeights_LinkingObjects
                 }
                 catch (System.Exception)
                 {
-                    ed.WriteMessage(
-                      "\nFiltered out link from an erased object."
-                    );
+                    ed.WriteMessage("\nFiltered out link from an erased object.");
                 }
                 tr.Commit();
             }
@@ -346,22 +303,14 @@ namespace LaneHeights_LinkingObjects
 
         // Helper function to get (optionally create)
         // the nested dictionary for our xrecord objects
-        private ObjectId GetLinkDictionaryId(
-          Database db,
-          bool createIfNotExisting
-        )
+        private ObjectId GetLinkDictionaryId(Database db, bool createIfNotExisting)
         {
             ObjectId appDictId = ObjectId.Null;
 
-            Transaction tr =
-              db.TransactionManager.StartTransaction();
+            Transaction tr = db.TransactionManager.StartTransaction();
             using (tr)
             {
-                DBDictionary nod =
-                  (DBDictionary)tr.GetObject(
-                    db.NamedObjectsDictionaryId,
-                    OpenMode.ForRead
-                  );
+                DBDictionary nod = (DBDictionary)tr.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForRead);
                 // Our outer level ("company") dictionary
                 // does not exist
                 if (!nod.Contains(kCompanyDict))
@@ -377,18 +326,13 @@ namespace LaneHeights_LinkingObjects
 
                     // ... and the inner "application" dictionary.
                     DBDictionary appDict = new DBDictionary();
-                    appDictId =
-                      compDict.SetAt(kApplicationDict, appDict);
+                    appDictId = compDict.SetAt(kApplicationDict, appDict);
                     tr.AddNewlyCreatedDBObject(appDict, true);
                 }
                 else
                 {
                     // Our "company" dictionary exists...
-                    DBDictionary compDict =
-                      (DBDictionary)tr.GetObject(
-                        nod.GetAt(kCompanyDict),
-                        OpenMode.ForRead
-                      );
+                    DBDictionary compDict = (DBDictionary)tr.GetObject(nod.GetAt(kCompanyDict), OpenMode.ForRead);
                     /// So check for our "application" dictionary
                     if (!compDict.Contains(kApplicationDict))
                     {
@@ -398,8 +342,7 @@ namespace LaneHeights_LinkingObjects
                         // Create the "application" dictionary
                         DBDictionary appDict = new DBDictionary();
                         compDict.UpgradeOpen();
-                        appDictId =
-                          compDict.SetAt(kApplicationDict, appDict);
+                        appDictId = compDict.SetAt(kApplicationDict, appDict);
                         tr.AddNewlyCreatedDBObject(appDict, true);
                     }
                     else

@@ -10,12 +10,12 @@ using Autodesk.AutoCAD.Geometry;
 [assembly:
   CommandClass(
     typeof(
-      LaneHeights_LinkingObjects.LinkingCommands
+      LaneHeights_LinkingCircles.LinkingCommands
     )
   )
 ]
 
-namespace LaneHeights_LinkingObjects
+namespace LaneHeights_LinkingCircles
 {/// <summary>
  /// This class defines our commands and event callbacks.
  /// </summary>

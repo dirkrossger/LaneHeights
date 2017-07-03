@@ -25,8 +25,8 @@ namespace LaneHeights_Extensions
             Active.Editor.WriteMessage(
                 "\n** Linking objects commands" +
                 "\n LINK ... linking objects" +
-                "\n LOADLINKS ... " +
-                "\n SAVELINKS ..."
+                "\n LOADLINKS ... Before using linked Objects you have to Load" +
+                "\n SAVELINKS ... After using LINK command save linked objects"
 
                                       );
         }

@@ -22,6 +22,13 @@ namespace LaneHeights_Extensions
             Active.Editor.WriteMessage("\n-> Get Featureline Start with gf");
             Active.Editor.WriteMessage("\n-> Get Polyline Start with gp");
             Active.Editor.WriteMessage("\n-> Create Featureline Start with cf");
+            Active.Editor.WriteMessage(
+                "\n** Linking objects commands" +
+                "\n LINK ... linking objects" +
+                "\n LOADLINKS ... " +
+                "\n SAVELINKS ..."
+
+                                      );
         }
 
         public void Terminate()

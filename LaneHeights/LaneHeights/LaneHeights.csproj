@@ -72,11 +72,11 @@
     </Reference>
     <Reference Include="AecBaseMgd, Version=7.9.48.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Dropbox\Symetri\Acad.net.library\2016\C3D\AecBaseMgd.dll</HintPath>
+      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2016\C3D\AecBaseMgd.dll</HintPath>
     </Reference>
     <Reference Include="AeccDbMgd, Version=11.0.659.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Dropbox\Symetri\Acad.net.library\2016\C3D\AeccDbMgd.dll</HintPath>
+      <HintPath>H:\Dropbox\Symetri\Acad.net.library\2016\C3D\AeccDbMgd.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -96,6 +96,8 @@
     <Compile Include="cExtension.cs" />
     <Compile Include="Featureline\cFeatureline.cs" />
     <Compile Include="Layer\cLayer.cs" />
+    <Compile Include="LinkingObjects\Commands.cs" />
+    <Compile Include="LinkingObjects\Linking.cs" />
     <Compile Include="Polyline\cPolyline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

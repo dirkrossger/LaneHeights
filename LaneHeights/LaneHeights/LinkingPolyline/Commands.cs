@@ -10,12 +10,12 @@ using Autodesk.AutoCAD.Geometry;
 [assembly:
   CommandClass(
     typeof(
-      LaneHeights_LinkingCircles.LinkingCommands
+      LaneHeights_LinkingPolyline.LinkingCommands
     )
   )
 ]
 
-namespace LaneHeights_LinkingCircles
+namespace LaneHeights_LinkingPolyline
 {/// <summary>
  /// This class defines our commands and event callbacks.
  /// </summary>
@@ -56,24 +56,27 @@ namespace LaneHeights_LinkingCircles
         }
 
         // Define "LINK" command
-        //[CommandMethod("LINK")]
+        [CommandMethod("LINK")]
         public void LinkEntities()
         {
             Document doc = Application.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
             Editor ed = doc.Editor;
 
-            PromptEntityOptions opts = new PromptEntityOptions("\nSelect first circle to link: ");
-            opts.AllowNone = true;
-            opts.SetRejectMessage("\nOnly circles can be selected.");
-            opts.AddAllowedClass(typeof(Circle), false);
+            PromptEntityOptions poPl = new PromptEntityOptions("\nSelect first Polyline to link: ");
+            poPl.AllowNone = true;
+            poPl.SetRejectMessage("\nOnly Polyline can be selected.");
+            poPl.AddAllowedClass(typeof(Polyline), false);
 
-            PromptEntityResult res = ed.GetEntity(opts);
+            PromptEntityResult res = ed.GetEntity(poPl);
             if (res.Status == PromptStatus.OK)
             {
+                PromptEntityOptions poCi = new PromptEntityOptions("\nSelect second circle to link: ");
+                poCi.SetRejectMessage("\nOnly Circle can be selected.");
+                poCi.AddAllowedClass(typeof(Circle), false);
+
                 ObjectId from = res.ObjectId;
-                opts.Message = "\nSelect second circle to link: ";
-                res = ed.GetEntity(opts);
+                res = ed.GetEntity(poCi);
                 if (res.Status == PromptStatus.OK)
                 {
                     ObjectId to = res.ObjectId;
@@ -84,7 +87,7 @@ namespace LaneHeights_LinkingCircles
         }
 
         // Define "LOADLINKS" command
-        //[CommandMethod("LOADLINKS")]
+        [CommandMethod("LOADLINKS")]
         public void LoadLinkSettings()
         {
             Document doc = Application.DocumentManager.MdiActiveDocument;
@@ -93,7 +96,7 @@ namespace LaneHeights_LinkingCircles
         }
 
         // Define "SAVELINKS" command
-        //[CommandMethod("SAVELINKS")]
+        [CommandMethod("SAVELINKS")]
         public void SaveLinkSettings()
         {
             Document doc = Application.DocumentManager.MdiActiveDocument;
@@ -155,50 +158,37 @@ namespace LaneHeights_LinkingCircles
             {
                 try
                 {
-                    Point3d firstCenter;
-                    Point3d secondCenter;
+                    Point3d polyInters;
+                    Point3d circleCenter;
                     double firstRadius;
                     double secondRadius;
 
-                    Entity ent =
-                      (Entity)tr.GetObject(from, OpenMode.ForRead);
+                    Entity entPoly = (Entity)tr.GetObject(from, OpenMode.ForRead);
 
-                    if (GetCenterAndRadius(
-                          ent,
-                          out firstCenter,
-                          out firstRadius
-                        )
-                    )
+                    if (entPoly.ObjectId.IsValid)
                     {
                         foreach (ObjectId to in linked)
                         {
-                            Entity ent2 =
-                              (Entity)tr.GetObject(to, OpenMode.ForRead);
-                            if (GetCenterAndRadius(
-                                  ent2,
-                                  out secondCenter,
-                                  out secondRadius
-                                )
-                            )
+                            Entity ent2 = (Entity)tr.GetObject(to, OpenMode.ForRead);
+                            if (GetCenterAndRadius(ent2, out circleCenter, out secondRadius))
                             {
-                                Vector3d vec = firstCenter - secondCenter;
+                                Polyline poly = (Polyline)tr.GetObject(entPoly.ObjectId, OpenMode.ForRead);
+                                polyInters = poly.GetClosestPointTo(circleCenter, true);
+                                Vector3d vec = polyInters - circleCenter;
                                 if (!vec.IsZeroLength())
                                 {
                                     // Only move the linked circle if it's not
                                     // already near enough              	
-                                    double apart =
-                                     vec.Length - (firstRadius + secondRadius);
-                                    if (apart < 0.0)
-                                        apart = -apart;
+                                    //double apart = vec.Length - (firstRadius + secondRadius);
+                                    //if (apart < 0.0)
+                                    //    apart = -apart;
+
+                                    double apart = vec.Length - 1;
 
                                     if (apart > 0.00001)
                                     {
                                         ent2.UpgradeOpen();
-                                        ent2.TransformBy(
-                                          Matrix3d.Displacement(
-                                            vec.GetNormal() * apart
-                                          )
-                                        );
+                                        ent2.TransformBy(Matrix3d.Displacement(vec.GetNormal() * apart));
                                     }
                                 }
                             }
@@ -207,10 +197,8 @@ namespace LaneHeights_LinkingCircles
                 }
                 catch (System.Exception ex)
                 {
-                    Autodesk.AutoCAD.Runtime.Exception ex2 =
-                      ex as Autodesk.AutoCAD.Runtime.Exception;
-                    if (ex2 != null &&
-                        ex2.ErrorStatus != ErrorStatus.WasOpenForUndo)
+                    Autodesk.AutoCAD.Runtime.Exception ex2 = ex as Autodesk.AutoCAD.Runtime.Exception;
+                    if (ex2 != null && ex2.ErrorStatus != ErrorStatus.WasOpenForUndo)
                     {
                         ed.WriteMessage("\nAutoCAD exception: {0}", ex2);
                     }
@@ -221,6 +209,11 @@ namespace LaneHeights_LinkingCircles
                 }
                 tr.Commit();
             }
+        }
+
+        private bool GetPolylineInters(Entity ent, out object firstCenter, out double firstRadius)
+        {
+            throw new NotImplementedException();
         }
 
         // Helper function to get the center and radius

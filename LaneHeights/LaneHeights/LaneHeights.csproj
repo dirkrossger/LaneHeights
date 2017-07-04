@@ -96,6 +96,8 @@
     <Compile Include="cExtension.cs" />
     <Compile Include="Featureline\cFeatureline.cs" />
     <Compile Include="Layer\cLayer.cs" />
+    <Compile Include="LinkingPolyline\Commands.cs" />
+    <Compile Include="LinkingPolyline\Linking.cs" />
     <Compile Include="LinkingCircles\Commands.cs" />
     <Compile Include="LinkingCircles\Linking.cs" />
     <Compile Include="Polyline\cPolyline.cs" />

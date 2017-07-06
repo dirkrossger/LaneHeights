@@ -66,7 +66,7 @@ namespace LaneHeights_LinkingPolyline
             PromptEntityOptions poPl = new PromptEntityOptions("\nSelect first Polyline to link: ");
             poPl.AllowNone = true;
             poPl.SetRejectMessage("\nOnly Polyline can be selected.");
-            poPl.AddAllowedClass(typeof(Polyline), false);
+            poPl.AddAllowedClass(typeof(Polyline3d), false);
 
             PromptEntityResult res = ed.GetEntity(poPl);
             if (res.Status == PromptStatus.OK)
@@ -144,6 +144,14 @@ namespace LaneHeights_LinkingPolyline
             m_entitiesToUpdate.Clear();
         }
 
+        private void MoveEntitiy(Transaction tr, Point3d basePt, Point3d moveTo, ObjectId id)
+        {
+            Vector3d vec = basePt.GetVectorTo(moveTo);
+            Entity ent = tr.GetObject(id, OpenMode.ForWrite) as Entity;
+            ent.UpgradeOpen();
+            ent.TransformBy(Matrix3d.Displacement(vec));
+      }
+
         // Helper function for OnCommandEnded
         private void UpdateLinkedEntities(ObjectId from)
         {
@@ -172,26 +180,36 @@ namespace LaneHeights_LinkingPolyline
                             Entity ent2 = (Entity)tr.GetObject(to, OpenMode.ForRead);
                             if (GetCenterAndRadius(ent2, out circleCenter, out secondRadius))
                             {
-                                Polyline poly = (Polyline)tr.GetObject(entPoly.ObjectId, OpenMode.ForRead);
-                                polyInters = poly.GetClosestPointTo(circleCenter, true);
-                                Vector3d vec = polyInters - circleCenter;
-                                if (!vec.IsZeroLength())
+                                Polyline3d acPoly3d = (Polyline3d)tr.GetObject(entPoly.ObjectId, OpenMode.ForRead);
+
+                                Point3dCollection acPts3d = new Point3dCollection();
+                                foreach (ObjectId acObjIdVert in acPoly3d)
                                 {
-                                    // Only move the linked circle if it's not
-                                    // already near enough              	
-                                    //double apart = vec.Length - (firstRadius + secondRadius);
-                                    //if (apart < 0.0)
-                                    //    apart = -apart;
-
-                                    double apart = vec.Length - 1;
-
-                                    if (apart > 0.00001)
-                                    {
-                                        ent2.UpgradeOpen();
-                                        ent2.TransformBy(Matrix3d.Displacement(vec.GetNormal() * apart));
-                                    }
+                                    PolylineVertex3d acPolVer3d;
+                                    acPolVer3d = tr.GetObject(acObjIdVert, OpenMode.ForRead) as PolylineVertex3d;
+                                    acPts3d.Add(acPolVer3d.Position);
                                 }
+                                foreach (Point3d pt in acPts3d)
+                                {
+                                    MoveEntitiy(tr, circleCenter, pt, ent2.ObjectId);
+                                }
+
+
+                                //#region Move Circle to Intersection of Polyline
+                                //polyInters = acPoly3d.GetClosestPointTo(circleCenter, true);
+
+                                //MoveEntitiy(tr, circleCenter, polyInters, ent2.ObjectId);
+
+                                //Vector3d vec = polyInters - circleCenter;
+                                //double apart = vec.Length - 1;
+
+                                //if (apart > 0.00001)
+                                //{
+                                //    ent2.UpgradeOpen();
+                                //    ent2.TransformBy(Matrix3d.Displacement(vec.GetNormal() * apart));
+                                //}
                             }
+                            //#endregion
                         }
                     }
                 }

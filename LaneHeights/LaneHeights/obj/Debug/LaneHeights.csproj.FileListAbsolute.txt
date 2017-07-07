@@ -11,3 +11,4 @@ H:\GIT-repository\LaneHeights\LaneHeights\LaneHeights\bin\Debug\LaneHeights.pdb
 H:\GIT-repository\LaneHeights\LaneHeights\LaneHeights\bin\Debug\AecBaseMgd.dll
 H:\GIT-repository\LaneHeights\LaneHeights\LaneHeights\bin\Debug\AeccDbMgd.dll
 C:\Git-repository\LaneHeights\LaneHeights\LaneHeights\obj\Debug\LaneHeights.csprojResolveAssemblyReference.cache
+H:\GIT-repository\LaneHeights\LaneHeights\LaneHeights\obj\Debug\LaneHeights.csprojResolveAssemblyReference.cache
